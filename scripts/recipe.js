@@ -1,63 +1,75 @@
 export function checkModule() {
     console.log("This is getting imported!");
 }
+let mainContainer = document.createElement('div');
+mainContainer.classList.add('main-container');
 let recipeContainer = document.createElement('div');
-export function populateRecipeList(recipeList) {
+let detailContainer = document.createElement('div');
 
+export function populateRecipeList(recipe) {
     recipeContainer.classList.add('recipe-container');
-    recipeList.results.forEach(recipe => {
-        let recipeCard = document.createElement('div');
-        recipeCard.classList.add('recipe-card');
-        let recipeName = document.createElement('h3');
-        recipeName.textContent = recipe['name'];
-        let recipeLink = document.createElement('a');
-        recipeLink.href = '#';
-        let recipeID = recipe['id'];
-        console.log(recipeID);
-        let thumbnail = document.createElement('img');
-        thumbnail.src = recipe['thumbnail_url'];
-        thumbnail.alt = recipe['name'];
-        thumbnail.classList.add('recipe-thumbnail');
+    detailContainer.classList.add('detail-container');
 
-        recipeCard.appendChild(recipeName);
-        recipeCard.appendChild(thumbnail);
+    // Clear previous
+    mainContainer.innerHTML = '';
+    recipeContainer.innerHTML = '';
+    detailContainer.innerHTML = '';
 
-        recipeLink.appendChild(recipeCard);
-        recipeContainer.appendChild(recipeLink);
-        console.log(recipeCard);
-        recipeLink.addEventListener('click', (e) => {
-            getRecipeDetails(e, recipeID);
-        });
-    });
-    document.body.appendChild(recipeContainer);
+    // Recipe card
+    let recipeCard = document.createElement('div');
+    recipeCard.classList.add('recipe-card');
 
+    let recipeName = document.createElement('h3');
+    recipeName.textContent = recipe['strMeal'];
 
-}
+    let thumbnail = document.createElement('img');
+    thumbnail.src = recipe['strMealThumb'];
+    thumbnail.alt = recipe['strMeal'];
+    thumbnail.classList.add('recipe-thumbnail');
 
-async function getRecipeDetails(e, recipeID) {
-    clearRecipeContainer();
-    try {
-        let response = await axios.get('/recipes/get-more-info', {
-            params: {
-                id: recipeID 
-            }
-        });
-        console.log(response.data);
-    }
-    catch(err)
-    {
-        console.error('error recipeID not found: '+ err);
-    }
-   
-}
+    recipeCard.appendChild(recipeName);
+    recipeCard.appendChild(thumbnail);
+    recipeContainer.appendChild(recipeCard);
 
-function clearRecipeContainer() {
-    if (recipeContainer) {
-        while (recipeContainer.firstChild) {
-            recipeContainer.removeChild(recipeContainer.firstChild);
+    // Recipe details
+    const title = document.createElement('h2');
+    title.textContent = recipe.strMeal;
+
+    const area = document.createElement('p');
+    area.textContent = `Area: ${recipe.strArea}`;
+
+    const category = document.createElement('p');
+    category.textContent = `Category: ${recipe.strCategory}`;
+
+    const instructions = document.createElement('p');
+    instructions.textContent = recipe.strInstructions;
+
+    const ingredientsList = document.createElement('ul');
+    ingredientsList.textContent = 'Ingredients:';
+
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = recipe[`strIngredient${i}`];
+        const measure = recipe[`strMeasure${i}`];
+
+        if (ingredient && ingredient.trim() !== '') {
+            const item = document.createElement('li');
+            item.textContent = `${measure} ${ingredient}`;
+            ingredientsList.appendChild(item);
         }
     }
-    else
-        console.log("No content displayed!")
 
+    detailContainer.appendChild(title);
+    detailContainer.appendChild(area);
+    detailContainer.appendChild(category);
+    detailContainer.appendChild(ingredientsList);
+    detailContainer.appendChild(instructions);
+
+    // Append both to the page
+    mainContainer.appendChild(recipeContainer);
+    mainContainer.appendChild(detailContainer);
+    
+    // Then append mainContainer to the DOM
+    document.body.appendChild(mainContainer);
 }
+
+

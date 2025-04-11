@@ -2,17 +2,14 @@ import * as recipeModule from '../scripts/recipe.js';
 recipeModule.checkModule();
 
 
-axios.defaults.baseURL = 'https://tasty.p.rapidapi.com';
-axios.defaults.headers['x-rapidapi-key'] = 'deb952a4d1msh2cb04c7a49d71b4p1bc69ajsnd3415c1b5be4';
-axios.defaults.headers['x-rapidapi-host'] = 'tasty.p.rapidapi.com';
-
+axios.defaults.baseURL = 'https://www.themealdb.com/api/json/v1/1';
 async function initialLoad()
 {
     try{
-    const response = await axios.get('/recipes/list');
-    let recipeList = response.data;
-    console.log(recipeList);
-    recipeModule.populateRecipeList(recipeList);
+    const response = await axios.get('/random.php');
+    let recipe = response.data.meals[0];
+    console.log(recipe);
+    recipeModule.populateRecipeList(recipe);
 }
 catch (err)
 {
