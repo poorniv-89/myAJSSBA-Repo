@@ -1,0 +1,52 @@
+h1 {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 4rem;
+    color: #ff6c47;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+#header-ctnr{
+    display: flex;
+}
+#search-ctnr{
+    display: flex;
+    margin-top: 5rem;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+#search-ctnr input
+ {
+    width: 5 rem;
+    height: 2.5rem; 
+    font-size: 1rem;
+    margin-right: 1rem;
+    border-radius: 4px;
+}
+
+#search-ctnr button{
+    margin-top: .15rem;
+    height: 2.5rem; 
+    width: 5rem;
+    border-radius: 1rem;
+}
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.recipe-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    width: 15rem;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+.recipe-thumbnail {
+    width: 100%;
+    border-radius: 4px;
+}
