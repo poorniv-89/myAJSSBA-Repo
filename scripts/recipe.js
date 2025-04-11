@@ -12,6 +12,8 @@ export function populateRecipeList(recipeList) {
         recipeName.textContent = recipe['name'];
         let recipeLink = document.createElement('a');
         recipeLink.href = '#';
+        let recipeID = recipe['id'];
+        console.log(recipeID);
         let thumbnail = document.createElement('img');
         thumbnail.src = recipe['thumbnail_url'];
         thumbnail.alt = recipe['name'];
@@ -23,17 +25,30 @@ export function populateRecipeList(recipeList) {
         recipeLink.appendChild(recipeCard);
         recipeContainer.appendChild(recipeLink);
         console.log(recipeCard);
-        recipeLink.addEventListener('click', getRecipeDetails);
+        recipeLink.addEventListener('click', (e) => {
+            getRecipeDetails(e, recipeID);
+        });
     });
     document.body.appendChild(recipeContainer);
 
 
 }
 
-export function getRecipeDetails(e) {
-    console.log(e.target);
+async function getRecipeDetails(e, recipeID) {
     clearRecipeContainer();
-
+    try {
+        let response = await axios.get('/recipes/get-more-info', {
+            params: {
+                id: recipeID 
+            }
+        });
+        console.log(response.data);
+    }
+    catch(err)
+    {
+        console.error('error recipeID not found: '+ err);
+    }
+   
 }
 
 function clearRecipeContainer() {
