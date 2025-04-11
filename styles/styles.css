@@ -33,7 +33,15 @@ h1 {
     height: 2.5rem; 
     width: 5rem;
     border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+
 }
+#search-ctnr button:hover {
+    background-color: rgba(0, 0, 0, 0.382);
+    color: white;
+  }
 .main-container {
     display: flex;
     justify-content: center;
