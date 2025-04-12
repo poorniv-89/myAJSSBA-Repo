@@ -1,15 +1,19 @@
 
 //importing modules 
 import * as recipeModule from '../scripts/recipe.js';
-import * as searchModule from '../scripts/searchRecipe.js'
+import * as searchModule from '../scripts/searchRecipe.js';
+import * as commentsModule from '../scripts/comments.js';
 
 //get the dom elements and cache into variables
 const searchInputEl = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
+const guestForm = document.getElementById('guestForm');
 //adding event listener to search button
 searchBtn.addEventListener('click', e=>{
     searchModule.searchRecipe(searchInputEl.value);
 });
+//adding event listener to guest submit button
+guestForm.addEventListener('submit', commentsModule.addComments);
 
 
 //setting base url for axio requests
@@ -33,5 +37,7 @@ catch (err)
 }
 // Calling the initialLoad function to run when the page loads
 initialLoad();
+
+
 
 
