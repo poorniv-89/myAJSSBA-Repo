@@ -1,4 +1,4 @@
-This app helps users find recipes from an API. User have to just type in the food or ingredients and the app will show the recipe with ingredients, picture and the necessary steps to cook it. 
+This app helps users find recipes from an API. User have to just type in the food or ingredients and the app will show the recipe with ingredients, picture and the necessary steps to cook it. It also gets the feedback from the user and stores it in local.
 This is an easy way to get ideas for what to make!
 
 **What could you have done differently during the planning stages of your project to make the execution easier?**

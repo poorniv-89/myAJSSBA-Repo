@@ -1,73 +1,54 @@
-let mainContainer = document.createElement('div');
-mainContainer.classList.add('main-container');
-let recipeContainer = document.createElement('div');
-let detailContainer = document.createElement('div');
+import { renderComments } from "./comments.js";
 
 export function getRecipe(recipe) {
-    recipeContainer.classList.add('recipe-container');
-    detailContainer.classList.add('detail-container');
+    const container = document.createElement('div');
+    container.id = 'main-container';
+    container.className = 'main-container';
 
-    // Clear previous recipe details
-    mainContainer.innerHTML = '';
-    recipeContainer.innerHTML = '';
-    detailContainer.innerHTML = '';
+    const recipeSection = document.createElement('div');
+    recipeSection.className = 'recipe-container';
 
-    // creating recipe card
-    let recipeCard = document.createElement('div');
-    recipeCard.classList.add('recipe-card');
-    //creating recipe name/title
-    let recipeName = document.createElement('h3');
-    recipeName.textContent = recipe['strMeal'];
-    //creating thumbnail image
-    let thumbnail = document.createElement('img');
-    thumbnail.src = recipe['strMealThumb'];
-    thumbnail.alt = recipe['strMeal'];
-    thumbnail.classList.add('recipe-thumbnail');
+    const detailSection = document.createElement('div');
+    detailSection.className = 'detail-container';
 
-    recipeCard.appendChild(recipeName);
-    recipeCard.appendChild(thumbnail);
-    recipeContainer.appendChild(recipeCard);
+    const recipeCard = document.createElement('div');
+    recipeCard.className = 'recipe-card';
 
-    // creating Recipe details
-    const title = document.createElement('h2');
-    title.textContent = recipe.strMeal;
-
-    const area = document.createElement('p');
-    area.textContent = `Area: ${recipe.strArea}`;
-    area.style.fontWeight ="Bold";
-
-    const category = document.createElement('p');
-    category.textContent = `Category: ${recipe.strCategory}`;
-    category.style.fontWeight ="Bold";
-
-    const instructions = document.createElement('p');
-    instructions.textContent = recipe.strInstructions;
+    recipeCard.innerHTML = `
+        <h3>${recipe.strMeal}</h3>
+        <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" class="recipe-thumbnail">
+    `;
 
     const ingredientsList = document.createElement('ul');
-    ingredientsList.textContent = 'Ingredients:';
-    //checking for ingredients if its empty
+    ingredientsList.innerHTML = `<strong>Ingredients:</strong>`;
     for (let i = 1; i <= 20; i++) {
-        const ingredient = recipe[`strIngredient${i}`];
-        const measure = recipe[`strMeasure${i}`];
-        if (ingredient && ingredient.trim() !== '') {
-            const item = document.createElement('li');
-            item.textContent = `${measure} ${ingredient}`;
-            ingredientsList.appendChild(item);
+        const ing = recipe[`strIngredient${i}`];
+        const meas = recipe[`strMeasure${i}`];
+        if (ing && ing.trim()) {
+            const li = document.createElement('li');
+            li.textContent = `${meas} ${ing}`;
+            ingredientsList.appendChild(li);
         }
     }
 
-    detailContainer.appendChild(title);
-    detailContainer.appendChild(area);
-    detailContainer.appendChild(category);
-    detailContainer.appendChild(ingredientsList);
-    detailContainer.appendChild(instructions);
+    detailSection.innerHTML = `
+        <h2>${recipe.strMeal}</h2>
+        <p><strong>Area:</strong> ${recipe.strArea}</p>
+        <p><strong>Category:</strong> ${recipe.strCategory}</p>
+        <p>${recipe.strInstructions}</p>
+    `;
+    detailSection.appendChild(ingredientsList);
 
-    // Appending both to the main container 
-    mainContainer.appendChild(recipeContainer);
-    mainContainer.appendChild(detailContainer);
-    
-    // appending mainContainer to the DOM
-    document.body.appendChild(mainContainer);
+    recipeSection.appendChild(recipeCard);
+    container.appendChild(recipeSection);
+    container.appendChild(detailSection);
+
+    const commentsList = renderComments();
+    container.appendChild(commentsList);
+
+    // Replace old main container
+    const oldContainer = document.getElementById('main-container');
+    if (oldContainer) oldContainer.remove();
+
+    document.body.appendChild(container);
 }
-
-
